@@ -1,0 +1,202 @@
+VERSION 5.00
+Begin VB.PropertyPage SizerPropertyPage 
+   Caption         =   "Sizer Specific Properties"
+   ClientHeight    =   3495
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   5925
+   KeyPreview      =   -1  'True
+   PaletteMode     =   0  'Halftone
+   ScaleHeight     =   3495
+   ScaleWidth      =   5925
+   Begin VB.ComboBox cmbBackStyle 
+      Height          =   315
+      Left            =   2760
+      Style           =   2  'Dropdown List
+      TabIndex        =   10
+      Top             =   1920
+      Width           =   2655
+   End
+   Begin VB.ComboBox cmbSizeEdit 
+      Height          =   315
+      ItemData        =   "SizerPropertyPage.pgx":0000
+      Left            =   2760
+      List            =   "SizerPropertyPage.pgx":0002
+      Style           =   2  'Dropdown List
+      TabIndex        =   8
+      Top             =   1200
+      Width           =   2655
+   End
+   Begin VB.ComboBox cmbBorderStyle 
+      Height          =   315
+      ItemData        =   "SizerPropertyPage.pgx":0004
+      Left            =   2760
+      List            =   "SizerPropertyPage.pgx":0006
+      Style           =   2  'Dropdown List
+      TabIndex        =   7
+      Top             =   480
+      Width           =   2655
+   End
+   Begin VB.Frame Frame1 
+      Caption         =   "Opções do controle:"
+      Height          =   2655
+      Left            =   120
+      TabIndex        =   2
+      Top             =   120
+      Width           =   2415
+      Begin VB.CheckBox chkEnabled 
+         Caption         =   "Enabled"
+         Height          =   285
+         Left            =   480
+         TabIndex        =   6
+         Top             =   1920
+         Width           =   1365
+      End
+      Begin VB.CheckBox chkLoked 
+         Caption         =   "Loked"
+         Height          =   285
+         Left            =   480
+         TabIndex        =   5
+         Top             =   1440
+         Width           =   1365
+      End
+      Begin VB.CheckBox chkMoveable 
+         Caption         =   "Moveable"
+         Height          =   285
+         Left            =   480
+         TabIndex        =   4
+         Top             =   480
+         Width           =   1365
+      End
+      Begin VB.CheckBox chkClipControls 
+         Caption         =   "ClipControls"
+         Height          =   285
+         Left            =   480
+         TabIndex        =   3
+         Top             =   960
+         Width           =   1365
+      End
+   End
+   Begin VB.Label Label1 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "BackStyle:"
+      Height          =   195
+      Left            =   2760
+      TabIndex        =   9
+      Top             =   1680
+      Width           =   765
+   End
+   Begin VB.Label lblBorderStyle 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "BorderStyle:"
+      Height          =   195
+      Left            =   2760
+      TabIndex        =   1
+      Top             =   240
+      Width           =   855
+   End
+   Begin VB.Label lblSizeEdit 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "SizeEdit:"
+      Height          =   195
+      Left            =   2760
+      TabIndex        =   0
+      Top             =   960
+      Width           =   615
+   End
+End
+Attribute VB_Name = "SizerPropertyPage"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+
+Private Sub cmbBackStyle_Change()
+    Changed = True
+    PropertyPage.Refresh
+End Sub
+
+Private Sub cmbBackStyle_Click()
+    Changed = True
+    PropertyPage.Refresh
+End Sub
+
+
+Private Sub cmbBorderStyle_Change()
+    Changed = True
+    PropertyPage.Refresh
+End Sub
+
+Private Sub cmbBorderStyle_Click()
+    Changed = True
+    PropertyPage.Refresh
+End Sub
+
+
+Private Sub cmbSizeEdit_Change()
+    Changed = True
+    PropertyPage.Refresh
+End Sub
+
+
+Private Sub cmbSizeEdit_Click()
+    Changed = True
+    PropertyPage.Refresh
+End Sub
+
+
+Private Sub PropertyPage_Initialize()
+    cmbBorderStyle.AddItem "0 - None"
+    cmbBorderStyle.AddItem "1 - Fixed Single"
+    cmbBackStyle.AddItem "0 - Transparent"
+    cmbBackStyle.AddItem "1 - Opaque"
+    cmbSizeEdit.AddItem "0 - Automatic"
+    cmbSizeEdit.AddItem "1 - Manual"
+End Sub
+
+Private Sub chkClipControls_Click()
+    Changed = True
+End Sub
+
+
+Private Sub chkMoveable_Click()
+    Changed = True
+End Sub
+
+
+Private Sub chkLoked_Click()
+    Changed = True
+End Sub
+
+
+Private Sub chkEnabled_Click()
+    Changed = True
+End Sub
+
+
+Private Sub PropertyPage_ApplyChanges()
+    SelectedControls(0).BorderStyle = cmbBorderStyle.ListIndex
+    SelectedControls(0).ClipControls = (chkClipControls.Value = vbChecked)
+    SelectedControls(0).Moveable = (chkMoveable.Value = vbChecked)
+    SelectedControls(0).Loked = (chkLoked.Value = vbChecked)
+    SelectedControls(0).SizeEdit = cmbSizeEdit.ListIndex
+    SelectedControls(0).Enabled = (chkEnabled.Value = vbChecked)
+    SelectedControls(0).BackStyle = cmbBackStyle.ListIndex
+End Sub
+
+
+Private Sub PropertyPage_SelectionChanged()
+    cmbBorderStyle.ListIndex = SelectedControls(0).BorderStyle
+    cmbBackStyle.ListIndex = SelectedControls(0).BackStyle
+    chkClipControls.Value = (SelectedControls(0).ClipControls And vbChecked)
+    chkMoveable.Value = (SelectedControls(0).Moveable And vbChecked)
+    chkLoked.Value = (SelectedControls(0).Loked And vbChecked)
+    cmbSizeEdit.ListIndex = SelectedControls(0).SizeEdit
+    chkEnabled.Value = (SelectedControls(0).Enabled And vbChecked)
+    Changed = False
+End Sub
+
+
